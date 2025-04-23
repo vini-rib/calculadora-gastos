@@ -44,11 +44,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${description}</td>
                 <td>R$ ${value.toFixed(2)}</td>
                 <td>${category}</td>
+                <td><button class="remove-btn">Remover</button></td>
             `;
             expenseList.appendChild(newRow);
 
             // Atualiza o total exibido no HTML
             totalExpensesDisplay.textContent = `Total: R$ ${totalExpenses.toFixed(2)}`;
+
+            // Adiciona evento de remoção ao botão
+            newRow.querySelector('.remove-btn').addEventListener('click', () => {
+                const index = Array.from(expenseList.children).indexOf(newRow);
+                expenses.splice(index, 1); // Remove o valor do array de despesas
+                newRow.remove(); // Remove a linha da tabela
+
+                // Recalcula o total de gastos
+                const updatedTotal = expenses.reduce((acc, curr) => acc + curr, 0);
+                totalExpensesDisplay.textContent = `Total: R$ ${updatedTotal.toFixed(2)}`;
+            });
 
             // Reseta o formulário
             expenseForm.reset();
